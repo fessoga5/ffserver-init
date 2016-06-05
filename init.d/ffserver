@@ -19,6 +19,7 @@ test -x $DAEMON || exit 0
 DIR=/var/run
 PID=$DIR/$NAME.pid
 RETRY=15
+LOG=/var/log/ffserver.log
 
 export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
@@ -29,7 +30,7 @@ case "$1" in
   start)
     log_daemon_msg "Starting $DESC" "$NAME"
 	start-stop-daemon --oknodo --start --pidfile $PID \
-	  --exec $DAEMON & >/dev/null 2>&1
+	  --exec $DAEMON >$LOG 2>&1 &
     case "$?" in
         0) log_end_msg 0 ;;
         *) log_end_msg 1; exit 1 ;;
